@@ -4,7 +4,7 @@ datos requeridos se encuentran en el archivo data.csv. En este laboratorio
 solo puede utilizar las funciones y librerias basicas de python. No puede
 utilizar pandas, numpy o scipy.
 """
-
+import pathlib
 
 def pregunta_04():
     """
@@ -26,3 +26,17 @@ def pregunta_04():
      ('12', 3)]
 
     """
+    current_path = pathlib.Path(__file__).parent
+    data_file = current_path.parent / "files/input/data.csv"
+
+    with open(data_file, "r") as file:
+        month_counts = {}
+        for line in file:
+            date = line.split("\t")[2]
+            month = date.split("-")[1]
+            if month in month_counts:
+                month_counts[month] += 1
+            else:
+                month_counts[month] = 1
+
+    return sorted(month_counts.items())

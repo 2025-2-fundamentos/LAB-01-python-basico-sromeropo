@@ -4,7 +4,7 @@ datos requeridos se encuentran en el archivo data.csv. En este laboratorio
 solo puede utilizar las funciones y librerias basicas de python. No puede
 utilizar pandas, numpy o scipy.
 """
-
+import pathlib
 
 def pregunta_10():
     """
@@ -20,3 +20,14 @@ def pregunta_10():
 
 
     """
+    current_path = pathlib.Path(__file__).parent
+    data_file = current_path.parent / "files/input/data.csv"
+    resultado = []
+    with open(data_file, "r") as file:
+        for line in file:
+            campos = line.strip().split("\t")
+            letra = campos[0]
+            num_col4 = len(campos[3].split(","))
+            num_col5 = len(campos[4].split(","))
+            resultado.append((letra, num_col4, num_col5))
+    return resultado

@@ -4,7 +4,7 @@ datos requeridos se encuentran en el archivo data.csv. En este laboratorio
 solo puede utilizar las funciones y librerias basicas de python. No puede
 utilizar pandas, numpy o scipy.
 """
-
+import pathlib
 
 def pregunta_06():
     """
@@ -26,3 +26,23 @@ def pregunta_06():
      ('jjj', 5, 17)]
 
     """
+    current_path = pathlib.Path(__file__).parent
+    data_file = current_path.parent / "files/input/data.csv"
+
+    claves = {}
+    with open(data_file, "r") as file:
+        for line in file:
+            campos = line.strip().split("\t")
+            diccionario = campos[4].split(",")
+            for item in diccionario:
+                clave, valor = item.split(":")
+                valor = int(valor)
+                if clave not in claves:
+                    claves[clave] = [valor, valor]
+                else:
+                    if valor < claves[clave][0]:
+                        claves[clave][0] = valor
+                    if valor > claves[clave][1]:
+                        claves[clave][1] = valor
+    resultado = [(clave, min_max[0], min_max[1]) for clave, min_max in sorted(claves.items())]
+    return resultado
